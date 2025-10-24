@@ -10,8 +10,8 @@ export const appRouter = router({
   system: systemRouter,
 
   auth: router({
-    me: protectedProcedure.query(opts => opts.ctx.user),
-    logout: protectedProcedure.mutation(({ ctx }) => {
+    me: publicProcedure.query(opts => opts.ctx.user),
+    logout: publicProcedure.mutation(({ ctx }) => {
       const cookieOptions = getSessionCookieOptions(ctx.req);
       ctx.res.clearCookie(COOKIE_NAME, { ...cookieOptions, maxAge: -1 });
       return {
@@ -21,7 +21,7 @@ export const appRouter = router({
   }),
 
   giveaway: router({
-    createEntry: protectedProcedure
+    createEntry: publicProcedure
       .input(z.object({
         firstName: z.string().min(1),
         lastName: z.string().min(1),
@@ -39,7 +39,7 @@ export const appRouter = router({
         return { success: true, entryId };
       }),
 
-    markSurveyClicked: protectedProcedure
+    markSurveyClicked: publicProcedure
       .input(z.object({
         entryId: z.number(),
       }))
@@ -48,7 +48,7 @@ export const appRouter = router({
         return { success: true };
       }),
 
-    getAllEntries: protectedProcedure
+    getAllEntries: publicProcedure
       .query(async () => {
         // Temporarily public for development - add authentication back for production
         const entries = await getAllGiveawayEntries();

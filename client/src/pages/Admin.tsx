@@ -20,17 +20,17 @@ export default function Admin() {
   const { data: entries, isLoading, error } = trpc.giveaway.getAllEntries.useQuery();
 
   // Temporarily disabled authentication for development
-  useEffect(() => {
-    if (!loading && !isAuthenticated) {
-      window.location.href = getLoginUrl();
-    }
-  }, [loading, isAuthenticated]);
+  // useEffect(() => {
+  //   if (!loading && !isAuthenticated) {
+  //     window.location.href = getLoginUrl();
+  //   }
+  // }, [loading, isAuthenticated]);
 
-  useEffect(() => {
-    if (!loading && isAuthenticated && user?.role !== 'admin') {
-      setLocation("/");
-    }
-  }, [loading, isAuthenticated, user, setLocation]);
+  // useEffect(() => {
+  //   if (!loading && isAuthenticated && user?.role !== 'admin') {
+  //     setLocation("/");
+  //   }
+  // }, [loading, isAuthenticated, user, setLocation]);
 
   if (loading || isLoading) {
     return (
