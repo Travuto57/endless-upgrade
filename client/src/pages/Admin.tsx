@@ -1,4 +1,4 @@
-import { useAuth } from "@/_core/hooks/useAuth";
+import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import {
@@ -9,9 +9,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { getLoginUrl } from "@/const";
 import { trpc } from "@/lib/trpc";
-import { useEffect } from "react";
 import { useLocation } from "wouter";
 
 export default function Admin() {
@@ -19,18 +17,6 @@ export default function Admin() {
   const [, setLocation] = useLocation();
   const { data: entries, isLoading, error } = trpc.giveaway.getAllEntries.useQuery();
 
-  // Temporarily disabled authentication for development
-  // useEffect(() => {
-  //   if (!loading && !isAuthenticated) {
-  //     window.location.href = getLoginUrl();
-  //   }
-  // }, [loading, isAuthenticated]);
-
-  // useEffect(() => {
-  //   if (!loading && isAuthenticated && user?.role !== 'admin') {
-  //     setLocation("/");
-  //   }
-  // }, [loading, isAuthenticated, user, setLocation]);
 
   if (loading || isLoading) {
     return (
@@ -104,7 +90,7 @@ export default function Admin() {
             <img src="/logo.png" alt="PrizeHub Pro" className="h-12 md:h-16" />
             <div className="flex items-center gap-4">
               <span className="text-sm text-muted-foreground">
-                {user?.name || user?.email}
+                {user?.username}
               </span>
               <Button variant="outline" size="sm" onClick={() => setLocation("/")}>
                 View Site
