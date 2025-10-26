@@ -13,7 +13,7 @@ import { trpc } from "@/lib/trpc";
 import { useLocation } from "wouter";
 
 export default function Admin() {
-  const { user, loading, isAuthenticated } = useAuth();
+  const { user, loading, isAuthenticated, logout } = useAuth();
   const [, setLocation] = useLocation();
   const { data: entries, isLoading, error } = trpc.giveaway.getAllEntries.useQuery();
 
@@ -94,6 +94,17 @@ export default function Admin() {
               </span>
               <Button variant="outline" size="sm" onClick={() => setLocation("/")}>
                 View Site
+              </Button>
+              <Button 
+                variant="outline" 
+                size="sm" 
+                onClick={() => {
+                  logout();
+                  setLocation("/");
+                }}
+                className="text-red-600 hover:text-red-700 hover:bg-red-50"
+              >
+                Logout
               </Button>
             </div>
           </div>
